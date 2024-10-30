@@ -6,6 +6,55 @@ body {
   overflow-x: hidden;
 }
 
+.navbar {
+  background-color: #1E88E5;
+  color: #ffffff;
+  padding: 1% 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar .nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.navbar a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 0 20px;
+  transition: color 0.3s ease;
+  font-size: 1.2rem;
+}
+
+.navbar a:hover {
+  color: #FFD700;
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 2% 5%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .navbar a {
+    margin: 10px 0;
+  }
+}
+
 .hero {
   height: 600px;
   background-size: cover;
@@ -38,26 +87,26 @@ body {
 
 .button {
   margin-top: 3%;
-  background-color: #ffd700;
-  color: #004c99;
-  padding: 3% 6%;
-  font-size: 1rem;
+  background-color: #FFD700;
+  color: #004C99;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
   font-weight: bold;
-  border-radius: 50px;
+  border-radius: 30px;
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
 }
 
 .button:hover {
-  background-color: #ffcc00;
+  background-color: #FFC107;
   transform: translateY(-5px);
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
 }
 
 @media (max-width: 600px) {
   .button {
-    padding: 3% 6%;
-    font-size: 0.9rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
   }
 }
 
@@ -71,6 +120,7 @@ body {
   border-radius: 15px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.4s, box-shadow 0.4s;
+  cursor: pointer;
 }
 
 .card:hover {
@@ -85,9 +135,9 @@ body {
 }
 
 .footer {
-  background-color: #004c99;
+  background-color: #1E88E5;
   color: #fff;
-  padding: 5% 3%;
+  padding: 2% 3%;
   text-align: center;
   margin-top: auto;
   box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
@@ -95,7 +145,7 @@ body {
 
 @media (max-width: 600px) {
   .footer {
-    padding: 5% 3%;
+    padding: 2% 3%;
   }
 }
 
@@ -117,31 +167,31 @@ body {
 }
 
 .mission-box {
-  background-color: #004c99;
+  background-color: #1E88E5;
   color: #ffffff;
   padding: 5%;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   display: inline-block;
   margin-top: 5%;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
 }
 
 @media (max-width: 600px) {
   .mission-box {
-    font-size: 1rem;
+    font-size: 1.2rem;
     padding: 5%;
   }
 }
 
 .contact-button {
-  background-color: #004c99;
+  background-color: #1E88E5;
   color: #ffffff;
-  padding: 5%;
+  padding: 1rem;
   border-radius: 30px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: bold;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;

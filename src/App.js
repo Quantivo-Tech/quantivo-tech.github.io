@@ -1,19 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, Container, Card, CardContent, Grid, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Container, Card, CardContent, CardMedia, Grid, Box, Dialog, DialogContent } from '@mui/material';
 import styled from '@emotion/styled';
 import './App.css';
 
 const AppBarStyled = styled(AppBar)({
-  backgroundColor: '#004c99',
+  backgroundColor: '#1E88E5',
   boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
   position: 'fixed',
   width: '100%',
   top: 0,
   zIndex: 1000,
+  padding: '0 5%',
 });
 
 const HeroBox = styled(Box)({
-  backgroundImage: 'linear-gradient(rgba(0, 76, 153, 0.7), rgba(0, 76, 153, 0.7)), url(https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)',
+  backgroundImage: 'linear-gradient(rgba(30, 136, 229, 0.7), rgba(30, 136, 229, 0.7)), url(https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)',
   height: '600px',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
@@ -34,23 +35,23 @@ const HeroBox = styled(Box)({
 });
 
 const ButtonStyled = styled(Button)({
-  backgroundColor: '#ffd700',
-  color: '#004c99',
+  backgroundColor: '#FFD700', // Bright gold for attention
+  color: '#004C99', // Dark blue text color for contrast
   marginTop: '3%',
-  padding: '3% 6%',
-  fontSize: '1rem',
+  padding: '1rem 2rem',
+  fontSize: '1.1rem',
   fontWeight: 'bold',
-  borderRadius: '50px',
+  borderRadius: '30px',
   boxShadow: '0 8px 15px rgba(0, 0, 0, 0.2)',
   transition: 'all 0.3s ease',
   '&:hover': {
-    backgroundColor: '#ffcc00',
+    backgroundColor: '#FFC107', // Softer gold for hover
     transform: 'translateY(-5px)',
     boxShadow: '0 15px 25px rgba(0, 0, 0, 0.3)',
   },
   '@media (max-width: 600px)': {
-    padding: '3% 6%',
-    fontSize: '0.8rem',
+    padding: '0.8rem 1.5rem',
+    fontSize: '1rem',
   },
 });
 
@@ -64,20 +65,21 @@ const CardStyled = styled(Card)({
     transform: 'translateY(-10px)',
     boxShadow: '0 12px 24px rgba(0, 0, 0, 0.2)',
   },
+  cursor: 'pointer',
   '@media (max-width: 600px)': {
     minHeight: '20%',
   },
 });
 
 const FooterBox = styled(Box)({
-  backgroundColor: '#004c99',
+  backgroundColor: '#1E88E5',
   color: '#fff',
-  padding: '5% 3%',
+  padding: '2% 3%',
   textAlign: 'center',
   marginTop: 'auto',
   boxShadow: '0 -4px 10px rgba(0, 0, 0, 0.3)',
   '@media (max-width: 600px)': {
-    padding: '5% 3%',
+    padding: '2% 3%',
   },
 });
 
@@ -96,18 +98,18 @@ const SectionBox = styled(Box)({
 });
 
 const MissionBox = styled(Box)({
-  backgroundColor: '#004c99',
+  backgroundColor: '#1E88E5',
   color: '#ffffff',
   padding: '5%',
   borderRadius: '10px',
   boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
   display: 'inline-block',
   marginTop: '5%',
-  fontSize: '1.2rem',
+  fontSize: '1.5rem',
   fontWeight: 'bold',
   textAlign: 'center',
   '@media (max-width: 600px)': {
-    fontSize: '1rem',
+    fontSize: '1.2rem',
     padding: '5%',
   },
 });
@@ -115,15 +117,19 @@ const MissionBox = styled(Box)({
 const App = () => {
   const sectionsRef = useRef({});
   const [activeSection, setActiveSection] = useState('');
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
       let currentSection = '';
       Object.keys(sectionsRef.current).forEach((key) => {
         const section = sectionsRef.current[key];
-        const sectionTop = section.offsetTop;
-        if (window.scrollY >= sectionTop - 60) {
-          currentSection = key;
+        if (section) {
+          const sectionTop = section.offsetTop;
+          if (window.scrollY >= sectionTop - 60) {
+            currentSection = key;
+          }
         }
       });
       setActiveSection(currentSection);
@@ -135,34 +141,60 @@ const App = () => {
     };
   }, []);
 
+  const handleCardClick = (service) => {
+    setSelectedService(service);
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+    setSelectedService('');
+  };
+
+  const serviceImages = {
+    'Inventory Management': 'https://www.capterra.com/p/142678/Cin7-Core/screenshots/',
+    'Loyalty Programs': 'https://via.placeholder.com/400x300.png?text=Loyalty+Programs+Sample',
+    'Appointment Scheduling': 'https://via.placeholder.com/400x300.png?text=Appointment+Scheduling+Sample',
+    'Task Automation': 'https://via.placeholder.com/400x300.png?text=Task+Automation+Sample',
+  };
+
   return (
     <div>
       <AppBarStyled position="fixed">
         <Toolbar>
-          <Typography variant="h5" style={{ flexGrow: 1, fontWeight: 'bold', textAlign: 'center' }}>
+          <Typography variant="h5" className="logo" style={{ fontWeight: 'bold', textAlign: 'left', marginLeft: '2rem' }}>
             Quantivo Tech
           </Typography>
-          {['Home', 'Services', 'About', 'Contact'].map((section) => (
-            <Button
-              key={section}
-              color="inherit"
-              onClick={() => {
-                document.getElementById(section.toLowerCase()).scrollIntoView({ behavior: 'smooth' });
-              }}
-              style={{ margin: '0 auto' }}
-            >
-              {section}
-            </Button>
-          ))}
+          <div className="nav-links">
+            {['Home', 'Services', 'About', 'Contact'].map((section) => (
+              <Button
+                key={section}
+                color="inherit"
+                onClick={() => {
+                  if (section.toLowerCase() === 'home') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  } else {
+                    const targetElement = document.getElementById(section.toLowerCase());
+                    if (targetElement) {
+                      targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
+                }}
+                style={{ margin: '0 1.5rem' }}
+              >
+                {section}
+              </Button>
+            ))}
+          </div>
         </Toolbar>
       </AppBarStyled>
 
       <HeroBox>
         <Container>
-          <Typography variant="h2" component="h1" style={{ fontWeight: 'bold', textAlign: 'center', fontSize: '2.5rem', '@media (max-width: 600px)': { fontSize: '5vw' } }}>
+          <Typography variant="h2" component="h1" style={{ fontWeight: 'bold', textAlign: 'center', fontSize: '2.5rem' }}>
             Empowering Your Business with Seamless Automation
           </Typography>
-          <Typography variant="h6" style={{ marginTop: '20px', fontSize: '1.25rem', textAlign: 'left', '@media (max-width: 600px)': { fontSize: '4vw' } }}>
+          <Typography variant="h6" style={{ marginTop: '20px', fontSize: '1.25rem', textAlign: 'left' }}>
             At Quantivo Tech, we help local businesses thrive by offering custom software solutions like inventory management, loyalty programs, appointment scheduling, and task automation.
           </Typography>
           <ButtonStyled variant="contained" onClick={() => document.getElementById('services').scrollIntoView({ behavior: 'smooth' })} style={{ display: 'block', margin: '30px auto' }}>
@@ -178,7 +210,7 @@ const App = () => {
         <Grid container spacing={6} justifyContent="center">
           {['Inventory Management', 'Loyalty Programs', 'Appointment Scheduling', 'Task Automation'].map((service) => (
             <Grid item xs={12} sm={6} md={3} key={service}>
-              <CardStyled>
+              <CardStyled onClick={() => handleCardClick(service)}>
                 <CardContent>
                   <Typography variant="h5" component="h3" color="primary" gutterBottom>
                     {service}
@@ -232,6 +264,12 @@ const App = () => {
       <FooterBox>
         <Typography variant="body2">&copy; 2024 Quantivo Tech. All rights reserved.</Typography>
       </FooterBox>
+
+      <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="md">
+        <DialogContent>
+          <img src={serviceImages[selectedService]} alt={`${selectedService} Sample`} style={{ width: '100%' }} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
