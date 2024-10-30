@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, Container, Card, CardContent, CardMedia, Grid, Box, Dialog, DialogContent } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Container, Card, CardContent, Grid, Box, Dialog, DialogContent } from '@mui/material';
 import styled from '@emotion/styled';
 import './App.css';
 

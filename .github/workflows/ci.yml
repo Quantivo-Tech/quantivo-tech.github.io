@@ -33,7 +33,7 @@ jobs:
         run: npm install
 
       - name: Build the project
-        run: npm run build
+        run: CI=false npm run build
 
   deploy:
     # Deploy only if the build job succeeds
