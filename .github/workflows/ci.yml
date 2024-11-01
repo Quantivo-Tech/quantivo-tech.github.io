@@ -36,6 +36,8 @@ jobs:
     # Deploy only if the build job succeeds
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      contents: write  # Required for pushing code to the repository
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
