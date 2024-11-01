@@ -23,7 +23,7 @@
   },
   "scripts": {
     "predeploy": "CI=false npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d build --repo https://${GITHUB_TOKEN}@github.com/Quantivo-Tech/quantivo-tech.github.io.git",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
