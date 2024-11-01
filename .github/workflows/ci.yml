@@ -32,9 +32,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build the project
-        run: CI=false npm run build
-
   deploy:
     # Deploy only if the build job succeeds
     runs-on: ubuntu-latest
