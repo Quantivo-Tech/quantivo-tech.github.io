@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 interface DrawerAppbarProps {
   window?: () => Window;
@@ -24,6 +24,7 @@ const navItems = ["Home", "Services", "About", "Contact"];
 
 export const DrawerAppbar = ({ window }: DrawerAppbarProps) => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const topPageRef = useRef<HTMLElement>(null);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -74,8 +75,7 @@ export const DrawerAppbar = ({ window }: DrawerAppbarProps) => {
             {navItems.map((item) => (
               <Button key={item} sx={{ color: "#fff" }} onClick={() => {
                 if (item.toLowerCase() === 'home') {
-                  // TODO: fix this
-                  // window.scrollTo({ top: 0, behavior: 'smooth' });
+                  topPageRef.current?.scrollIntoView({ behavior: 'smooth' });
                 } else {
                   const targetElement = document.getElementById(item.toLowerCase());
                   if (targetElement) {
@@ -89,7 +89,7 @@ export const DrawerAppbar = ({ window }: DrawerAppbarProps) => {
           </Box>
         </Toolbar>
       </AppBar>
-      <nav>
+      <nav ref={topPageRef}>
         <Drawer
           container={container}
           variant="temporary"
