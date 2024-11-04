@@ -1,13 +1,8 @@
-import { Box, Button, Card, styled } from "@mui/material";
+import { Box, styled } from "@mui/material";
 
-export const StyledBox = styled(Box)({
-  backgroundColor: "#fff",
-  color: "#333",
+export const MissionBox = styled(Box)({
   borderRadius: "15px",
   margin: "5% auto",
-});
-
-export const MissionBox = styled(StyledBox)({
   display: "flex",
   justifyItems: "center",
   gap: "200px",
