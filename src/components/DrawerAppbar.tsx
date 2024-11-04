@@ -73,7 +73,7 @@ export const DrawerAppbar = ({ window }: DrawerAppbarProps) => {
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
-              <Button key={item} sx={{ color: "#fff" }} onClick={() => {
+              <Button key={item} color="secondary" onClick={() => {
                 if (item.toLowerCase() === 'home') {
                   topPageRef.current?.scrollIntoView({ behavior: 'smooth' });
                 } else {

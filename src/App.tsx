@@ -1,102 +1,89 @@
-import styled from "@emotion/styled";
 import {
-  Box,
-  Button,
   Card,
   CardContent,
   Container,
+  createTheme,
   Dialog,
   DialogContent,
-  Grid2,
+  responsiveFontSizes,
+  styled,
+  ThemeProvider,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import "./App.css";
-import { DrawerAppbar } from "./components/DrawerAppbar";
 
-const HeroBox = styled(Box)({
-  backgroundImage:
-    "linear-gradient(rgba(30, 136, 229, 0.7), rgba(30, 136, 229, 0.7)), url(https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)",
+import { DrawerAppbar } from "./components/DrawerAppbar";
+import { ButtonStyled, FooterBox, MissionBox } from "./style/StyledComponents";
+import "./style/App.css";
+
+const StyledContainer = styled(Container)({
+  padding: "3% 5% 0 5%",
+});
+
+const HomeContainer = styled(Container)(({ theme }) => ({
+  backgroundImage: `linear-gradient(rgba(30, 136, 229, 0.7), rgba(30, 136, 229, 0.7)), url(https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)`,
+  boxShadow: "inset 0 0 20px rgba(0, 0, 0, 0.5)",
   height: "600px",
   backgroundSize: "cover",
   backgroundPosition: "center",
-  color: "#fff",
+  color: theme.palette.secondary.main,
   display: "flex",
+  flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
   textAlign: "center",
-  padding: "0 5%",
-  boxShadow: "inset 0 0 20px rgba(0, 0, 0, 0.5)",
-  flexDirection: "column",
-});
+}));
 
-const ButtonStyled = styled(Button)({
-  backgroundColor: "#FFD700",
-  color: "#004C99", // Dark blue text color for contrast
-  marginTop: "3%",
-  padding: "1rem 2rem",
-  fontSize: "1.1rem",
-  fontWeight: "bold",
-  borderRadius: "30px",
-  boxShadow: "0 8px 15px rgba(0, 0, 0, 0.2)",
-  transition: "all 0.3s ease",
-  "&:hover": {
-    backgroundColor: "#FFC107", // Softer gold for hover
-    transform: "translateY(-5px)",
-    boxShadow: "0 15px 25px rgba(0, 0, 0, 0.3)",
-  },
-});
-
-const CardStyled = styled(Card)({
-  minHeight: "25%",
-  textAlign: "center",
+const CardStyled = styled(Card)(({ theme }) => ({
+  margin: "3%",
   borderRadius: "15px",
   boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
   transition: "transform 0.4s, box-shadow 0.4s",
+  [theme.breakpoints.up("md")]: {
+    background: `linear-gradient(270deg, ${theme.palette.primary.main} 25%, ${theme.palette.secondary.main} 50%)`,
+  },
   "&:hover": {
     transform: "translateY(-10px)",
     boxShadow: "0 12px 24px rgba(0, 0, 0, 0.2)",
   },
   cursor: "pointer",
-});
+}));
 
-const FooterBox = styled(Box)({
-  backgroundColor: "#1E88E5",
-  color: "#fff",
-  padding: "2% 3%",
-  textAlign: "center",
-  marginTop: "auto",
-  boxShadow: "0 -4px 10px rgba(0, 0, 0, 0.3)",
-});
-
-const SectionBox = styled(Box)({
-  padding: "5% 4%",
-  textAlign: "left",
-  background: "#ffffff",
-  borderRadius: "15px",
-  boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
-  margin: "5% auto",
-  maxWidth: "1000px",
-});
-
-const MissionBox = styled(Box)({
-  backgroundColor: "#1E88E5",
-  color: "#ffffff",
-  padding: "5%",
-  borderRadius: "10px",
-  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-  display: "inline-block",
-  marginTop: "5%",
-  fontSize: "1.5rem",
-  fontWeight: "bold",
-  textAlign: "center",
-});
+const SERVICE_IMAGES = {
+  "Inventory Management":
+    "https://www.capterra.com/p/142678/Cin7-Core/screenshots/",
+  "Loyalty Programs":
+    "https://via.placeholder.com/400x300.png?text=Loyalty+Programs+Sample",
+  "Appointment Scheduling":
+    "https://via.placeholder.com/400x300.png?text=Appointment+Scheduling+Sample",
+  "Task Automation":
+    "https://via.placeholder.com/400x300.png?text=Task+Automation+Sample",
+};
 
 const App = () => {
   const sectionsRef = useRef({});
   const [activeSection, setActiveSection] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedService, setSelectedService] = useState("");
+
+  let theme = createTheme({
+    cssVariables: true,
+    palette: {
+      primary: {
+        light: "#4b9fea",
+        main: "#1e88e5",
+        dark: "#155fa0",
+        contrastText: "#fff",
+      },
+      secondary: {
+        light: "#fff",
+        main: "#ffffff",
+        dark: "#b2b2b2",
+        contrastText: "#333",
+      },
+    },
+  });
+  theme = responsiveFontSizes(theme);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -129,65 +116,48 @@ const App = () => {
     setSelectedService("");
   };
 
-  const serviceImages = {
-    "Inventory Management":
-      "https://www.capterra.com/p/142678/Cin7-Core/screenshots/",
-    "Loyalty Programs":
-      "https://via.placeholder.com/400x300.png?text=Loyalty+Programs+Sample",
-    "Appointment Scheduling":
-      "https://via.placeholder.com/400x300.png?text=Appointment+Scheduling+Sample",
-    "Task Automation":
-      "https://via.placeholder.com/400x300.png?text=Task+Automation+Sample",
-  };
-
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <DrawerAppbar />
 
-      <HeroBox>
-        <Container>
-          <Typography
-            variant="h2"
-            component="h1"
-            style={{
-              fontWeight: "bold",
-              textAlign: "center",
-              fontSize: "2.5rem",
-            }}
-          >
-            Empowering Your Business with Seamless Automation
-          </Typography>
-          <Typography
-            variant="h6"
-            style={{
-              marginTop: "20px",
-              fontSize: "1.25rem",
-              textAlign: "left",
-            }}
-          >
-            At Quantivo Tech, we help local businesses thrive by offering custom
-            software solutions like inventory management, loyalty programs,
-            appointment scheduling, and task automation.
-          </Typography>
-          <ButtonStyled
-            variant="contained"
-            onClick={() =>{
-              const services = document.getElementById("services");
-              if (services) {
-                services.scrollIntoView({ behavior: "smooth" });
-              }
-            }}
-            style={{ display: "block", margin: "30px auto" }}
-          >
-            Discover Our Services
-          </ButtonStyled>
-        </Container>
-      </HeroBox>
+      <HomeContainer maxWidth={false}>
+        <Typography
+          variant="h2"
+          style={{
+            fontWeight: "bold",
+            textAlign: "center",
+          }}
+        >
+          Empowering Your Business with Seamless Automation
+        </Typography>
+        <Typography
+          variant="h6"
+          style={{
+            marginTop: "20px",
+            textAlign: "left",
+          }}
+        >
+          At Quantivo Tech, we help local businesses thrive by offering custom
+          software solutions like inventory management, loyalty programs,
+          appointment scheduling, and task automation.
+        </Typography>
+        <ButtonStyled
+          variant="contained"
+          onClick={() => {
+            const services = document.getElementById("services");
+            if (services) {
+              services.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
+          style={{ display: "block", margin: "30px auto" }}
+        >
+          Discover Our Services
+        </ButtonStyled>
+      </HomeContainer>
 
-      <Container id="services" style={{ padding: "5% 0" }}>
+      <StyledContainer id="services" maxWidth="lg">
         <Typography
           variant="h4"
-          component="h2"
           gutterBottom
           style={{
             fontWeight: "bold",
@@ -197,44 +167,34 @@ const App = () => {
         >
           Our Services
         </Typography>
-        <Grid2 container spacing={6} justifyContent="center">
-          {[
-            "Inventory Management",
-            "Loyalty Programs",
-            "Appointment Scheduling",
-            "Task Automation",
-          ].map((service) => (
-            <Grid2 key={service}>
-              <CardStyled onClick={() => handleCardClick(service)}>
-                <CardContent>
-                  <Typography
-                    variant="h5"
-                    component="h3"
-                    color="primary"
-                    gutterBottom
-                  >
-                    {service}
-                  </Typography>
-                  <Typography variant="body1" style={{ marginTop: "10px" }}>
-                    {service === "Inventory Management"
-                      ? "Manage stock efficiently with our tailored inventory solutions."
-                      : service === "Loyalty Programs"
-                      ? "Boost customer retention with easy-to-use loyalty rewards systems."
-                      : service === "Appointment Scheduling"
-                      ? "Streamline booking processes with our intuitive scheduling tools."
-                      : "Automate repetitive tasks, saving you time and boosting productivity."}
-                  </Typography>
-                </CardContent>
-              </CardStyled>
-            </Grid2>
-          ))}
-        </Grid2>
-      </Container>
+        {[
+          "Inventory Management",
+          "Loyalty Programs",
+          "Appointment Scheduling",
+          "Task Automation",
+        ].map((service) => (
+          <CardStyled onClick={() => handleCardClick(service)}>
+            <CardContent>
+              <Typography variant="h5" color="primary" gutterBottom>
+                {service}
+              </Typography>
+              <Typography variant="body1">
+                {service === "Inventory Management"
+                  ? "Manage stock efficiently with our tailored inventory solutions."
+                  : service === "Loyalty Programs"
+                  ? "Boost customer retention with easy-to-use loyalty rewards systems."
+                  : service === "Appointment Scheduling"
+                  ? "Streamline booking processes with our intuitive scheduling tools."
+                  : "Automate repetitive tasks, saving you time and boosting productivity."}
+              </Typography>
+            </CardContent>
+          </CardStyled>
+        ))}
+      </StyledContainer>
 
-      <SectionBox id="about">
+      <StyledContainer id="about" maxWidth="lg">
         <Typography
           variant="h4"
-          component="h2"
           gutterBottom
           style={{
             fontWeight: "bold",
@@ -246,7 +206,6 @@ const App = () => {
         </Typography>
         <Typography
           variant="body1"
-          paragraph
           style={{ fontSize: "1.2rem", lineHeight: "1.8" }}
         >
           At Quantivo Tech, we believe in the power of innovation to transform
@@ -257,7 +216,6 @@ const App = () => {
         </Typography>
         <Typography
           variant="body1"
-          paragraph
           style={{ fontSize: "1.2rem", lineHeight: "1.8" }}
         >
           We are more than just a software company—we are your strategic partner
@@ -279,12 +237,11 @@ const App = () => {
           "Innovation, Growth, Success - Empowering Your Business Every Step of
           the Way"
         </MissionBox>
-      </SectionBox>
+      </StyledContainer>
 
-      <SectionBox id="contact">
+      <StyledContainer id="contact">
         <Typography
           variant="h4"
-          component="h2"
           gutterBottom
           style={{
             fontWeight: "bold",
@@ -296,7 +253,6 @@ const App = () => {
         </Typography>
         <Typography
           variant="body1"
-          paragraph
           style={{ fontSize: "1.2rem", lineHeight: "1.8" }}
         >
           We'd love to hear from you! Whether you have questions about our
@@ -310,7 +266,7 @@ const App = () => {
         >
           Contact Us
         </ButtonStyled>
-      </SectionBox>
+      </StyledContainer>
 
       <FooterBox>
         <Typography variant="body2">
@@ -321,13 +277,13 @@ const App = () => {
       <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="md">
         <DialogContent>
           <img
-            src={serviceImages[selectedService]}
+            src={SERVICE_IMAGES[selectedService]}
             alt={`${selectedService} Sample`}
             style={{ width: "100%" }}
           />
         </DialogContent>
       </Dialog>
-    </>
+    </ThemeProvider>
   );
 };
 
