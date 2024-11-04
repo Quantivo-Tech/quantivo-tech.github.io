@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardContent,
   Container,
@@ -13,12 +14,8 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 
 import { DrawerAppbar } from "./components/DrawerAppbar";
-import { ButtonStyled, FooterBox, MissionBox } from "./style/StyledComponents";
+import { MissionBox } from "./style/StyledComponents";
 import "./style/App.css";
-
-const StyledContainer = styled(Container)({
-  padding: "3% 5% 0 5%",
-});
 
 const HomeContainer = styled(Container)(({ theme }) => ({
   backgroundImage: `linear-gradient(rgba(30, 136, 229, 0.7), rgba(30, 136, 229, 0.7)), url(https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)`,
@@ -32,6 +29,33 @@ const HomeContainer = styled(Container)(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
   textAlign: "center",
+}));
+
+const PageContentContainer = styled(Container)({
+  padding: "3% 5% 0 5%",
+});
+
+const FooterContainer = styled(Container)(({ theme }) => ({
+  marginTop: "5%",
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.secondary.main,
+  padding: "2% 3%",
+  textAlign: "center",
+  boxShadow: "0 -4px 10px rgba(0, 0, 0, 0.3)",
+}));
+
+const ButtonStyled = styled(Button)(({ theme }) => ({
+  backgroundColor: "#FFD700",
+  color: theme.palette.primary.dark,
+  fontWeight: "bold",
+  borderRadius: "30px",
+  boxShadow: "0 8px 15px rgba(0, 0, 0, 0.2)",
+  transition: "all 0.3s ease",
+  "&:hover": {
+    backgroundColor: "#FFC107", // Softer gold for hover
+    transform: "translateY(-5px)",
+    boxShadow: "0 15px 25px rgba(0, 0, 0, 0.3)",
+  },
 }));
 
 const CardStyled = styled(Card)(({ theme }) => ({
@@ -142,6 +166,7 @@ const App = () => {
           appointment scheduling, and task automation.
         </Typography>
         <ButtonStyled
+          size="large"
           variant="contained"
           onClick={() => {
             const services = document.getElementById("services");
@@ -155,7 +180,7 @@ const App = () => {
         </ButtonStyled>
       </HomeContainer>
 
-      <StyledContainer id="services" maxWidth="lg">
+      <PageContentContainer id="services" maxWidth="lg">
         <Typography
           variant="h4"
           gutterBottom
@@ -190,9 +215,9 @@ const App = () => {
             </CardContent>
           </CardStyled>
         ))}
-      </StyledContainer>
+      </PageContentContainer>
 
-      <StyledContainer id="about" maxWidth="lg">
+      <PageContentContainer id="about" maxWidth="lg">
         <Typography
           variant="h4"
           gutterBottom
@@ -237,42 +262,46 @@ const App = () => {
           "Innovation, Growth, Success - Empowering Your Business Every Step of
           the Way"
         </MissionBox>
-      </StyledContainer>
+      </PageContentContainer>
 
-      <StyledContainer id="contact">
+      <PageContentContainer
+        id="contact"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "20px",
+        }}
+      >
         <Typography
           variant="h4"
-          gutterBottom
           style={{
             fontWeight: "bold",
-            marginBottom: "20px",
-            textAlign: "center",
           }}
         >
           Contact Us
         </Typography>
-        <Typography
-          variant="body1"
-          style={{ fontSize: "1.2rem", lineHeight: "1.8" }}
-        >
+        <Typography variant="body1" style={{ fontSize: "1.2rem" }}>
           We'd love to hear from you! Whether you have questions about our
           services, need support, or want to explore how we can help your
           business grow, reach out to us.
         </Typography>
         <ButtonStyled
+          style={{ width: "fit-content" }}
           variant="contained"
           href="mailto:contact@quantivotech.com"
           className="contact-button"
+          size="large"
         >
           Contact Us
         </ButtonStyled>
-      </StyledContainer>
+      </PageContentContainer>
 
-      <FooterBox>
+      <FooterContainer maxWidth={false}>
         <Typography variant="body2">
           &copy; 2024 Quantivo Tech. All rights reserved.
         </Typography>
-      </FooterBox>
+      </FooterContainer>
 
       <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="md">
         <DialogContent>

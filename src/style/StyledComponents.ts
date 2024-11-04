@@ -21,28 +21,3 @@ export const MissionBox = styled(StyledBox)({
   fontWeight: "bold",
   textAlign: "center",
 });
-
-export const FooterBox = styled(StyledBox)({
-  backgroundColor: "#1E88E5",
-  color: "#fff",
-  padding: "2% 3%",
-  textAlign: "center",
-  boxShadow: "0 -4px 10px rgba(0, 0, 0, 0.3)",
-});
-
-export const ButtonStyled = styled(Button)({
-  backgroundColor: "#FFD700",
-  color: "#004C99", // Dark blue text color for contrast
-  marginTop: "3%",
-  padding: "1rem 2rem",
-  fontSize: "1.1rem",
-  fontWeight: "bold",
-  borderRadius: "30px",
-  boxShadow: "0 8px 15px rgba(0, 0, 0, 0.2)",
-  transition: "all 0.3s ease",
-  "&:hover": {
-    backgroundColor: "#FFC107", // Softer gold for hover
-    transform: "translateY(-5px)",
-    boxShadow: "0 15px 25px rgba(0, 0, 0, 0.3)",
-  },
-});
