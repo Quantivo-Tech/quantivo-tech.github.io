@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "predeploy": "CI=false npm run build",
-    "deploy": "gh-pages -d build --repo https://x-access-token:${GITHUB_TOKEN}@github.com/Quantivo-Tech/quantivo-tech.github.io.git",
+    "deploy": "gh-pages -d dist --repo https://x-access-token:${GITHUB_TOKEN}@github.com/Quantivo-Tech/quantivo-tech.github.io.git",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
