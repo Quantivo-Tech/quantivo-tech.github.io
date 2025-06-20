@@ -1,25 +1,24 @@
+# .github/workflows/ci-pipeline.yml
 name: CI Pipeline
 
-# Trigger the workflow only on pushes to the 'main' branch
 on:
   push:
     branches:
       - main
 
 jobs:
-  build:
-    # Use the latest Ubuntu version as the runner
+  build-and-deploy:
     runs-on: ubuntu-latest
-
-    # Cache 'node_modules' between builds to speed up the process
+    permissions:
+      contents: write    # needed for GITHUB_TOKEN to push via gh-pages
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '18' # Specify your Node.js version
+          node-version: '18'
 
       - name: Cache node_modules
         uses: actions/cache@v3
@@ -30,32 +29,14 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-  deploy:
-    # Deploy only if the build job succeeds
-    runs-on: ubuntu-latest
-    needs: build
-    permissions:
-      contents: write  # Required for pushing code to the repository
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      
-      - name: Set Git Identity
+      - name: Set Git identity
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18' # Ensure you're using the correct Node.js version
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Deploy the application
+      - name: Deploy to GitHub Pages
         run: npm run deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
