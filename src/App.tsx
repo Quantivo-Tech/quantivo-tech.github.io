@@ -1,35 +1,20 @@
-import { useState, useEffect, useRef } from "react"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import { useEffect, useRef } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { useCursor } from "./hooks/useCursor"
 import { useScrollSections } from "./hooks/useScrollSections"
 import { Button } from "./components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./components/ui/card"
 import { Input } from "./components/ui/input"
 import { Textarea } from "./components/ui/textarea"
-import { Badge } from "./components/ui/badge"
 import { ShaderText } from "./components/shader-text"
 import { FloatingShapes } from "./components/floating-shapes"
 import { GlassCard } from "./components/ui/glass-card"
 import { StatCard } from "./components/stat-card"
 import { ProcessTimeline } from "./components/process-timeline"
 import {
-  Phone,
-  Mail,
-  MapPin,
-  Shield,
-  Award,
-  CheckCircle,
-  Code,
-  Smartphone,
-  Brain,
   ArrowRight,
-  Calendar,
-  Zap,
   Users,
   Globe,
   Cpu,
-  Volume2,
-  VolumeX,
   Home,
   Briefcase,
   User,
@@ -56,9 +41,6 @@ const particleConfig = {
 }
 
 export default function App() {
-  const { scrollYProgress } = useScroll()
-  const servicesRef = useRef<HTMLDivElement>(null)
-  const heroRef = useRef<HTMLDivElement>(null)
   // --- 2. Refs for Particle Canvas and Animation ---
   const particleCanvasRef = useRef<HTMLCanvasElement>(null)
   // Using a ref to store particles prevents re-renders on animation frames.
@@ -70,20 +52,6 @@ export default function App() {
   const { mousePosition, springGlowX, springGlowY } = useCursor()
   const { activeSection, showFloatingNav } = useScrollSections()
 
-  const heroY = useTransform(scrollYProgress, [0, 0.5], ["0%", "20%"])
-
-  // Create a separate scroll progress tracker for the services section
-  const { scrollYProgress: servicesScrollProgress } = useScroll({
-    target: servicesRef,
-    offset: ["start end", "end start"],
-  })
-
-  // Transform the vertical scroll into horizontal movement
-  const imagesX = useTransform(
-    servicesScrollProgress,
-    [0.34, 0.54],
-    ["0%", "-200%"], // Move from 0% to -75% (showing all images)
-  )
   // --- New: Update the mouse position ref when the hook provides a new value ---
   useEffect(() => {
     mousePosRef.current = mousePosition
@@ -195,51 +163,6 @@ export default function App() {
     }
   }
 
-  const services = [
-    {
-      icon: Code,
-      title: "Web Development",
-      description: "Custom web applications built with cutting-edge technologies.",
-      features: ["React & Next.js", "Full-stack solutions", "Responsive design"],
-    },
-    {
-      icon: Smartphone,
-      title: "Mobile Apps",
-      description: "Native and cross-platform mobile applications.",
-      features: ["iOS & Android", "React Native", "Flutter development"],
-    },
-    {
-      icon: Brain,
-      title: "AI Solutions",
-      description: "Intelligent automation and machine learning integration.",
-      features: ["Machine learning", "Data analytics", "Process automation"],
-    },
-  ]
-
-  // Images for the horizontal scroll gallery
-  const galleryImages = [
-    {
-      url: "/slides/1.jpg",
-      alt: "Modern web application development",
-    },
-    {
-      url: "/slides/2.png",
-      alt: "Mobile app design and development",
-    },
-    {
-      url: "/slides/3.jpg",
-      alt: "Artificial intelligence and machine learning",
-    },
-    {
-      url: "/slides/4.jpg",
-      alt: "Cloud computing and infrastructure",
-    },
-    {
-      url: "/slides/5.jpg",
-      alt: "Advanced data analytics and visualization",
-    },
-  ]
-
   return (
     <div className="min-h-screen bg-[#0a0f1a] overflow-x-hidden cursor-none">
       {/* Custom Cursor */}
@@ -321,7 +244,7 @@ export default function App() {
       </motion.div>
 
       {/* Hero Section */}
-      <section id="home" ref={heroRef} className="relative h-screen overflow-hidden">
+      <section id="home" className="relative h-screen overflow-hidden">
         {/* Dark gradient background */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0d1424] to-[#0a0f1a] z-0" />
 
