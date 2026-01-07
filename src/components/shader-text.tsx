@@ -177,8 +177,8 @@ export function ShaderText({ text, className = "", style = {}, config = {} }: Sh
 
     // Split text into two lines and center them properly
     const lines = text.split(", ")
-    const line1 = lines[0] || "Your Vision" // "Your Vision"
-    const line2 = lines[1] || "Our Innovation" // "Our Innovation"
+    const line1 = lines[0] || "Where SaaS Brands"
+    const line2 = lines[1] || "Meet Real Influence"
 
     // Calculate proper vertical centering with larger font
     const fontSize = 80
@@ -400,8 +400,8 @@ export function ShaderText({ text, className = "", style = {}, config = {} }: Sh
     return (
       <div className={className} style={style}>
         <h1 className="text-6xl md:text-7xl font-light leading-tight text-white text-center" style={{ fontFamily: 'Raleway, Inter, sans-serif' }}>
-          <div className="block">Your Vision</div>
-          <div className="block text-sky-400 mt-2">Our Innovation</div>
+          <div className="block">Where SaaS Brands</div>
+          <div className="block text-sky-400 mt-2">Meet Real Influence</div>
         </h1>
       </div>
     )
