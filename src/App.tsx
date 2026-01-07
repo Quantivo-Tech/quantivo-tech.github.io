@@ -10,6 +10,7 @@ import { NetworkVisualization } from "./components/network-visualization"
 import { GlassCard } from "./components/ui/glass-card"
 import { StatCard } from "./components/stat-card"
 import { ProcessTimeline } from "./components/process-timeline"
+import { PinnedScrollSection } from "./components/pinned-scroll-section"
 import {
   ArrowRight,
   Users,
@@ -346,6 +347,9 @@ export default function App() {
           </motion.div>
         </motion.div>
       </section>
+
+      {/* Pinned Scroll - Value Props */}
+      <PinnedScrollSection />
 
       {/* Trust Bar + Value Split Section */}
       <section id="services" className="relative py-20 cursor-none">
