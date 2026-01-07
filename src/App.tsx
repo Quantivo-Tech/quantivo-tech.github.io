@@ -6,7 +6,7 @@ import { Button } from "./components/ui/button"
 import { Input } from "./components/ui/input"
 import { Textarea } from "./components/ui/textarea"
 import { ShaderText } from "./components/shader-text"
-import { FloatingShapes } from "./components/floating-shapes"
+import { NetworkVisualization } from "./components/network-visualization"
 import { GlassCard } from "./components/ui/glass-card"
 import { StatCard } from "./components/stat-card"
 import { ProcessTimeline } from "./components/process-timeline"
@@ -248,8 +248,8 @@ export default function App() {
         {/* Dark gradient background */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0d1424] to-[#0a0f1a] z-0" />
 
-        {/* Floating 3D shapes */}
-        <FloatingShapes className="z-5" opacity={0.1} speed={0.3} count={10} />
+        {/* Network visualization - connections between brands and influencers */}
+        <NetworkVisualization className="z-5" opacity={0.15} speed={0.12} nodeCount={35} connectionDistance={120} />
 
         {/* Particle canvas */}
         <canvas ref={particleCanvasRef} className="absolute inset-0 z-10" />
@@ -430,7 +430,7 @@ export default function App() {
       {/* Why QuantivoTech Section */}
       <section id="about" className="relative py-20 cursor-none">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0d1424] to-[#0a0f1a] z-0" />
-        <FloatingShapes className="z-5 opacity-50" opacity={0.05} speed={0.2} count={5} />
+        <NetworkVisualization className="z-5" opacity={0.08} speed={0.1} nodeCount={20} connectionDistance={100} />
 
         <div className="relative z-10 max-w-4xl mx-auto px-6">
           <motion.h2
@@ -549,7 +549,7 @@ export default function App() {
       {/* Dual CTA / Contact Section */}
       <section id="contact" className="relative py-20 cursor-none">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0d1424] to-[#0a0f1a] z-0" />
-        <FloatingShapes className="z-5" opacity={0.08} speed={0.15} count={4} />
+        <NetworkVisualization className="z-5" opacity={0.06} speed={0.08} nodeCount={15} connectionDistance={90} />
 
         <div className="relative z-10 max-w-6xl mx-auto px-6">
           <motion.h2
