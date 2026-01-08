@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 
 interface UseCountUpOptions {
   end: number
@@ -7,20 +7,29 @@ interface UseCountUpOptions {
   decimals?: number
   suffix?: string
   prefix?: string
+  onComplete?: () => void
 }
 
 export function useCountUp({
   end,
-  duration = 2000,
+  duration = 1500, // Reduced from 2000 for snappier feel
   start = 0,
   decimals = 0,
   suffix = "",
   prefix = "",
+  onComplete,
 }: UseCountUpOptions) {
   const [count, setCount] = useState(start)
   const [isVisible, setIsVisible] = useState(false)
+  const [isComplete, setIsComplete] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   const hasAnimated = useRef(false)
+  const onCompleteRef = useRef(onComplete)
+
+  // Keep the ref updated with latest callback
+  useEffect(() => {
+    onCompleteRef.current = onComplete
+  }, [onComplete])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -50,7 +59,7 @@ export function useCountUp({
       if (startTime === null) startTime = currentTime
       const progress = Math.min((currentTime - startTime) / duration, 1)
 
-      // Ease out quad
+      // Ease out cubic for smooth deceleration
       const easeOut = 1 - Math.pow(1 - progress, 3)
       const currentCount = start + (end - start) * easeOut
 
@@ -58,6 +67,10 @@ export function useCountUp({
 
       if (progress < 1) {
         animationId = requestAnimationFrame(animate)
+      } else {
+        // Animation complete
+        setIsComplete(true)
+        onCompleteRef.current?.()
       }
     }
 
@@ -68,5 +81,5 @@ export function useCountUp({
 
   const formattedCount = `${prefix}${count.toFixed(decimals)}${suffix}`
 
-  return { count: formattedCount, ref }
+  return { count: formattedCount, ref, isComplete, isVisible }
 }

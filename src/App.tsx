@@ -1,16 +1,18 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useCursor } from "./hooks/useCursor"
 import { useScrollSections } from "./hooks/useScrollSections"
 import { Button } from "./components/ui/button"
-import { Input } from "./components/ui/input"
-import { Textarea } from "./components/ui/textarea"
 import { ShaderText } from "./components/shader-text"
 import { NetworkVisualization } from "./components/network-visualization"
 import { GlassCard } from "./components/ui/glass-card"
 import { StatCard } from "./components/stat-card"
 import { ProcessTimeline } from "./components/process-timeline"
+import { ContactSection, type UserType } from "./components/contact-section"
 import { PinnedScrollSection } from "./components/pinned-scroll-section"
+import { HeroSection } from "./components/hero-section"
+import { ScrollProgressBar } from "./components/scroll-progress-bar"
+import { SideNavigation } from "./components/side-navigation"
 import {
   ArrowRight,
   Users,
@@ -33,7 +35,7 @@ import {
 // --- 1. Configurable Props for Particle Effect ---
 // Exposed props for easy tuning of the particle field.
 const particleConfig = {
-  particleCount: 60,
+  particleCount: 0,
   driftSpeed: 2,
   parallaxFactor: 0.05,
   damping: 0.08,
@@ -52,6 +54,9 @@ export default function App() {
   // Use optimized hooks
   const { mousePosition, springGlowX, springGlowY } = useCursor()
   const { activeSection, showFloatingNav } = useScrollSections()
+
+  // Contact form user type state (lifted for hero CTA connection)
+  const [contactUserType, setContactUserType] = useState<UserType>("brand")
 
   // --- New: Update the mouse position ref when the hook provides a new value ---
   useEffect(() => {
@@ -157,15 +162,33 @@ export default function App() {
     }
   }, []) // --- Performance Fix: Empty dependency array ensures this effect runs only ONCE ---
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = (sectionId: string, userType?: UserType) => {
+    // Set user type if provided (for hero CTA -> contact form connection)
+    if (userType) {
+      setContactUserType(userType)
+    }
+    // Special case: "home" scrolls to absolute top
+    if (sectionId === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+      return
+    }
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: "smooth" })
     }
   }
 
+  // Scroll to top on page load/refresh
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
-    <div className="min-h-screen bg-[#0a0f1a] overflow-x-hidden cursor-none">
+    <div className="min-h-screen bg-[#020617] overflow-x-clip cursor-none">
+      {/* Progress Indicators */}
+      <ScrollProgressBar />
+      <SideNavigation />
+
       {/* Custom Cursor */}
       <div
         className="fixed w-6 h-6 border-2 border-white/50 rounded-full pointer-events-none z-50 transition-transform duration-100 ease-out"
@@ -244,141 +267,83 @@ export default function App() {
         <span className="text-lg sm:text-xl font-medium text-white drop-shadow-lg">QuantivoTech</span>
       </motion.div>
 
-      {/* Hero Section */}
-      <section id="home" className="relative h-screen overflow-hidden">
-        {/* Dark gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0d1424] to-[#0a0f1a] z-0" />
+      {/* Hero Section with scroll-driven exit */}
+      <HeroSection
+        particleCanvasRef={particleCanvasRef}
+        onScrollToSection={scrollToSection}
+      />
 
-        {/* Network visualization - connections between brands and influencers */}
-        <NetworkVisualization className="z-5" opacity={0.15} speed={0.12} nodeCount={35} connectionDistance={120} />
-
-        {/* Particle canvas */}
-        <canvas ref={particleCanvasRef} className="absolute inset-0 z-10" />
-
-        {/* Centered Content Wrapper */}
-        <div className="relative z-20 h-full flex flex-col items-center justify-center p-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-col items-center space-y-8"
-          >
-            {/* Shader text headline */}
-            <div style={{ perspective: '1000px' }}>
-              <ShaderText
-                text="Where SaaS Brands, Meet Real Influence"
-                className="h-48 md:h-64"
-                style={{
-                  width: 'clamp(300px, 90vw, 800px)',
-                  transform: 'rotateX(15deg)',
-                  transformStyle: 'preserve-3d',
-                }}
-                config={{
-                  amplitude: 0.02,
-                  frequency: 8.0,
-                  speed: 0.4,
-                  decay: 1.8,
-                }}
-              />
-              <h1 className="sr-only">Where SaaS Brands Meet Real Influence</h1>
-            </div>
-
-            {/* Subtitle */}
-            <motion.p
-              className="text-xl md:text-2xl font-light text-white/80 max-w-2xl text-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              The bridge between ambitious brands and influential business owners.
-            </motion.p>
-
-            {/* Dual CTA Buttons */}
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-            >
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  size="lg"
-                  className="w-52 glass-strong hover:bg-white/20 text-white border-sky-400/50"
-                  onClick={() => scrollToSection('contact')}
-                >
-                  I'm a Brand
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  size="lg"
-                  className="w-52 glass-strong hover:bg-white/20 text-white border-teal-400/50"
-                  onClick={() => scrollToSection('contact')}
-                >
-                  I'm an Influencer
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 z-20"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="flex flex-col items-center"
-          >
-            <span className="text-sm font-light mb-2">Scroll to explore</span>
-            <div className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center">
-              <motion.div
-                className="w-1 h-3 bg-white/60 rounded-full mt-2"
-                animate={{ y: [0, 12, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              />
-            </div>
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* Pinned Scroll - Value Props */}
+      {/* Pinned Scroll - Value Props (overlaps with Hero via negative margin) */}
       <PinnedScrollSection />
 
-      {/* Trust Bar + Value Split Section */}
-      <section id="services" className="relative py-20 cursor-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0d1424] to-[#0a0f1a] z-0" />
+      {/* Trust Bar + Value Split Section - overlaps with pinned scroll */}
+      <section id="services" className="relative pt-[60vh] pb-20 cursor-none" style={{ marginTop: "-50vh" }}>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a1628]/80 to-[#0a0f1a] z-0" />
 
         <div className="relative z-10 max-w-6xl mx-auto px-6">
           {/* Trust Bar */}
           <motion.div
             className="text-center mb-20"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            viewport={{ once: true, margin: "-10%" }}
           >
             <p className="text-white/40 text-sm uppercase tracking-widest mb-8">
               Trusted by forward-thinking brands
             </p>
             <div className="glass-card p-6 inline-block">
               <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
-                {[1, 2, 3, 4, 5, 6].map((i) => (
+                {/* Abstract tech company icons */}
+                {[
+                  // Hexagon with dot
+                  <svg viewBox="0 0 40 40" className="w-10 h-10">
+                    <path d="M20 4L36 12V28L20 36L4 28V12L20 4Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                    <circle cx="20" cy="20" r="4" fill="currentColor"/>
+                  </svg>,
+                  // Stacked bars
+                  <svg viewBox="0 0 40 40" className="w-10 h-10">
+                    <rect x="6" y="24" width="28" height="4" rx="1" fill="currentColor"/>
+                    <rect x="10" y="18" width="20" height="4" rx="1" fill="currentColor" opacity="0.7"/>
+                    <rect x="14" y="12" width="12" height="4" rx="1" fill="currentColor" opacity="0.4"/>
+                  </svg>,
+                  // Connected nodes
+                  <svg viewBox="0 0 40 40" className="w-10 h-10">
+                    <circle cx="20" cy="10" r="4" fill="currentColor"/>
+                    <circle cx="10" cy="30" r="4" fill="currentColor"/>
+                    <circle cx="30" cy="30" r="4" fill="currentColor"/>
+                    <line x1="20" y1="14" x2="12" y2="26" stroke="currentColor" strokeWidth="1.5"/>
+                    <line x1="20" y1="14" x2="28" y2="26" stroke="currentColor" strokeWidth="1.5"/>
+                    <line x1="14" y1="30" x2="26" y2="30" stroke="currentColor" strokeWidth="1.5"/>
+                  </svg>,
+                  // Abstract S curve
+                  <svg viewBox="0 0 40 40" className="w-10 h-10">
+                    <path d="M10 10C10 10 30 10 30 20C30 30 10 30 10 30" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+                  </svg>,
+                  // Grid squares
+                  <svg viewBox="0 0 40 40" className="w-10 h-10">
+                    <rect x="8" y="8" width="10" height="10" rx="2" fill="currentColor"/>
+                    <rect x="22" y="8" width="10" height="10" rx="2" fill="currentColor" opacity="0.6"/>
+                    <rect x="8" y="22" width="10" height="10" rx="2" fill="currentColor" opacity="0.6"/>
+                    <rect x="22" y="22" width="10" height="10" rx="2" fill="currentColor" opacity="0.3"/>
+                  </svg>,
+                  // Circle with arc
+                  <svg viewBox="0 0 40 40" className="w-10 h-10">
+                    <circle cx="20" cy="20" r="12" fill="none" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M20 8A12 12 0 0 1 32 20" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/>
+                  </svg>,
+                ].map((icon, i) => (
                   <motion.div
                     key={i}
-                    className="w-24 h-8 bg-white/10 rounded opacity-40 hover:opacity-100 transition-opacity"
+                    className="text-white/30 hover:text-sky-400/80 transition-colors duration-300"
                     initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 0.4, scale: 1 }}
-                    whileHover={{ opacity: 1 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    whileHover={{ scale: 1.1 }}
                     transition={{ delay: i * 0.1 }}
                     viewport={{ once: true }}
-                  />
+                  >
+                    {icon}
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -433,12 +398,12 @@ export default function App() {
 
       {/* Why QuantivoTech Section */}
       <section id="about" className="relative py-20 cursor-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0d1424] to-[#0a0f1a] z-0" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0a1628] to-[#0a0f1a] z-0" />
         <NetworkVisualization className="z-5" opacity={0.08} speed={0.1} nodeCount={20} connectionDistance={100} />
 
         <div className="relative z-10 max-w-4xl mx-auto px-6">
           <motion.h2
-            className="text-4xl md:text-5xl font-light text-white text-center mb-16"
+            className="section-header text-center mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -460,8 +425,8 @@ export default function App() {
                     <Globe className="w-10 h-10 text-sky-400" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-medium text-white mb-3">Built for B2B Influence</h3>
-                    <p className="text-white/60 leading-relaxed">
+                    <h3 className="text-3xl font-semibold tracking-tight text-white mb-3" style={{ letterSpacing: '-0.02em' }}>Built for B2B Influence</h3>
+                    <p className="text-lg leading-relaxed text-slate-400">
                       We specialize in one thing: connecting SaaS brands with business owners who have real audiences.
                       No lifestyle fluff - just authentic voices your buyers trust.
                     </p>
@@ -482,8 +447,8 @@ export default function App() {
                     <HeartHandshake className="w-10 h-10 text-purple-400" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-medium text-white mb-3">Boutique, Not Factory</h3>
-                    <p className="text-white/60 leading-relaxed">
+                    <h3 className="text-3xl font-semibold tracking-tight text-white mb-3" style={{ letterSpacing: '-0.02em' }}>Boutique, Not Factory</h3>
+                    <p className="text-lg leading-relaxed text-slate-400">
                       No account managers juggling 50 clients. You get hands-on partnership,
                       direct communication, and a team that actually knows your brand.
                     </p>
@@ -497,7 +462,7 @@ export default function App() {
 
       {/* Results / Social Proof Section */}
       <section className="relative py-20 cursor-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0d1424] to-[#0a0f1a] z-0" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0a1628] to-[#0a0f1a] z-0" />
 
         <div className="relative z-10 max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-16">
@@ -513,19 +478,55 @@ export default function App() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <GlassCard className="max-w-3xl mx-auto text-center" glowColor="purple">
-              <div className="text-4xl text-white/20 mb-4">"</div>
-              <p className="text-xl md:text-2xl text-white/80 font-light leading-relaxed mb-6">
-                QuantivoTech found us the perfect partners - business owners whose audiences actually convert.
-                Best agency decision we've made.
-              </p>
-              <div className="flex items-center justify-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-sky-400 to-purple-500" />
-                <div className="text-left">
-                  <div className="text-white font-medium">Marketing Director</div>
-                  <div className="text-white/40 text-sm">SaaS Company</div>
+            <GlassCard className="max-w-3xl mx-auto text-center px-8 md:px-16 py-12" glowColor="purple">
+              {/* Decorative quote mark */}
+              <motion.div
+                className="text-6xl text-sky-400/10 font-serif leading-none mb-6"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.4 }}
+                viewport={{ once: true }}
+              >
+                "
+              </motion.div>
+
+              {/* Main quote with pull quote highlight */}
+              <motion.p
+                className="text-2xl sm:text-3xl lg:text-4xl font-light text-white/90 leading-[1.4] mb-8"
+                style={{ letterSpacing: '-0.03em' }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.05 }}
+                viewport={{ once: true }}
+              >
+                QuantivoTech found us the perfect partners - business owners whose audiences actually convert.{' '}
+                <span className="bg-gradient-to-r from-sky-500/15 to-transparent px-2 py-1 rounded-sm text-sky-400 font-medium">
+                  Best agency decision we've made.
+                </span>
+              </motion.p>
+
+              {/* Attribution with abstract logo */}
+              <motion.div
+                className="flex items-center justify-center gap-4"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                {/* Abstract company logo */}
+                <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center">
+                  <svg viewBox="0 0 32 32" className="w-6 h-6 text-slate-400">
+                    <rect x="4" y="4" width="10" height="10" rx="2" fill="currentColor" />
+                    <rect x="18" y="4" width="10" height="10" rx="2" fill="currentColor" opacity="0.6" />
+                    <rect x="4" y="18" width="10" height="10" rx="2" fill="currentColor" opacity="0.6" />
+                    <rect x="18" y="18" width="10" height="10" rx="2" fill="currentColor" opacity="0.3" />
+                  </svg>
                 </div>
-              </div>
+                <div className="text-left">
+                  <div className="text-white font-medium">Sarah Chen</div>
+                  <div className="text-slate-500 text-sm tracking-wide uppercase">Marketing Director, TechCorp</div>
+                </div>
+              </motion.div>
             </GlassCard>
           </motion.div>
         </div>
@@ -533,11 +534,11 @@ export default function App() {
 
       {/* How It Works Section */}
       <section className="relative py-20 cursor-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0d1424] to-[#0a0f1a] z-0" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0a1628] to-[#0a0f1a] z-0" />
 
         <div className="relative z-10 max-w-5xl mx-auto px-6">
           <motion.h2
-            className="text-4xl md:text-5xl font-light text-white text-center mb-16"
+            className="section-header text-center mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -551,94 +552,20 @@ export default function App() {
       </section>
 
       {/* Dual CTA / Contact Section */}
-      <section id="contact" className="relative py-20 cursor-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0d1424] to-[#0a0f1a] z-0" />
-        <NetworkVisualization className="z-5" opacity={0.06} speed={0.08} nodeCount={15} connectionDistance={90} />
-
-        <div className="relative z-10 max-w-6xl mx-auto px-6">
-          <motion.h2
-            className="text-4xl md:text-5xl font-light text-white text-center mb-4"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            Let's Work Together
-          </motion.h2>
-          <motion.p
-            className="text-white/60 text-center mb-16 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            viewport={{ once: true }}
-          >
-            Whether you're a brand looking to expand your reach or an influencer ready to monetize your audience, we're here to help.
-          </motion.p>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <div className="glass-card gradient-border p-8">
-                <h3 className="text-2xl font-light text-white mb-2">Ready to Reach New Audiences?</h3>
-                <p className="text-white/50 text-sm mb-6">Tell us about your brand and goals. We'll show you what's possible.</p>
-                <form className="space-y-4">
-                  <Input placeholder="Company Name" className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-sky-400/50" />
-                  <Input placeholder="Your Name" className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-sky-400/50" />
-                  <Input type="email" placeholder="Email" className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-sky-400/50" />
-                  <Textarea placeholder="What are you looking for?" rows={4} className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-sky-400/50 resize-none" />
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button className="w-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white">
-                      Get Started
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </Button>
-                  </motion.div>
-                </form>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
-            >
-              <div className="glass-card gradient-border-teal p-8">
-                <h3 className="text-2xl font-light text-white mb-2">Ready to Land Brand Deals?</h3>
-                <p className="text-white/50 text-sm mb-6">Tell us about your audience. We'll match you with the right opportunities.</p>
-                <form className="space-y-4">
-                  <Input placeholder="Your Name" className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-teal-400/50" />
-                  <Input type="email" placeholder="Email" className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-teal-400/50" />
-                  <Input placeholder="Social Profile Link" className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-teal-400/50" />
-                  <Textarea placeholder="Tell us about your audience" rows={4} className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-teal-400/50 resize-none" />
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button className="w-full bg-gradient-to-r from-teal-500 to-green-600 hover:from-teal-400 hover:to-green-500 text-white">
-                      Apply Now
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </Button>
-                  </motion.div>
-                </form>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      <ContactSection userType={contactUserType} setUserType={setContactUserType} />
 
       {/* Footer */}
       <footer className="relative py-12 cursor-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] to-[#050810] z-0" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] to-[#010409] z-0" />
 
         <div className="relative z-10 max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-8 text-center md:text-left mb-12">
             <div className="md:col-span-1 flex flex-col items-center md:items-start">
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-sky-400 to-purple-500 rounded-lg flex items-center justify-center">
-                  <Cpu className="w-4 h-4 text-white" />
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-sky-400 to-purple-500 rounded-lg flex items-center justify-center shadow-lg shadow-sky-500/20">
+                  <Cpu className="w-5 h-5 text-white" />
                 </div>
-                <span className="font-medium text-white">QuantivoTech</span>
+                <span className="text-xl font-medium text-white">QuantivoTech</span>
               </div>
               <p className="text-white/40 text-sm font-light">Connecting brands with influential voices.</p>
             </div>
@@ -680,7 +607,7 @@ export default function App() {
           </div>
 
           <div className="border-t border-white/10 pt-8 text-center">
-            <p className="text-sm text-white/30">© 2025 QuantivoTech. All rights reserved.</p>
+            <p className="text-sm text-white/30">© 2023 QuantivoTech. All rights reserved.</p>
           </div>
         </div>
       </footer>
