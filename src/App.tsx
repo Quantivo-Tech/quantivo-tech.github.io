@@ -466,10 +466,10 @@ export default function App() {
 
         <div className="relative z-10 max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-16">
-            <StatCard value={500} suffix="+" label="Influencer Partners" delay={0} />
-            <StatCard value={98} suffix="%" label="Client Satisfaction" delay={0.1} />
-            <StatCard value={10} suffix="x" label="Average Campaign ROI" delay={0.2} />
-            <StatCard value={24} suffix="hr" label="Response Time" delay={0.3} />
+            <StatCard value={1} suffix=":1" label="Personal Matching" delay={0} />
+            <StatCard value={3} suffix="+" label="Platform Coverage" description="TikTok, IG, YouTube & more" delay={0.1} />
+            <StatCard value={24} suffix="hr" label="Response Time" delay={0.2} />
+            <StatCard value={2} suffix="-Sided" label="Contracts" delay={0.3} />
           </div>
 
           <motion.div
@@ -490,7 +490,7 @@ export default function App() {
                 "
               </motion.div>
 
-              {/* Main quote with pull quote highlight */}
+              {/* Founder vision statement */}
               <motion.p
                 className="text-2xl sm:text-3xl lg:text-4xl font-light text-white/90 leading-[1.4] mb-8"
                 style={{ letterSpacing: '-0.03em' }}
@@ -499,13 +499,13 @@ export default function App() {
                 transition={{ duration: 0.5, delay: 0.05 }}
                 viewport={{ once: true }}
               >
-                QuantivoTech found us the perfect partners - business owners whose audiences actually convert.{' '}
+                We're building the bridge between ambitious SaaS brands and the business voices their buyers actually trust.{' '}
                 <span className="bg-gradient-to-r from-sky-500/15 to-transparent px-2 py-1 rounded-sm text-sky-400 font-medium">
-                  Best agency decision we've made.
+                  No fluff, just results.
                 </span>
               </motion.p>
 
-              {/* Attribution with abstract logo */}
+              {/* Founder attribution */}
               <motion.div
                 className="flex items-center justify-center gap-4"
                 initial={{ opacity: 0, y: 15 }}
@@ -513,18 +513,13 @@ export default function App() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 viewport={{ once: true }}
               >
-                {/* Abstract company logo */}
-                <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center">
-                  <svg viewBox="0 0 32 32" className="w-6 h-6 text-slate-400">
-                    <rect x="4" y="4" width="10" height="10" rx="2" fill="currentColor" />
-                    <rect x="18" y="4" width="10" height="10" rx="2" fill="currentColor" opacity="0.6" />
-                    <rect x="4" y="18" width="10" height="10" rx="2" fill="currentColor" opacity="0.6" />
-                    <rect x="18" y="18" width="10" height="10" rx="2" fill="currentColor" opacity="0.3" />
-                  </svg>
+                {/* QuantivoTech logo */}
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-400/20 to-purple-500/20 flex items-center justify-center">
+                  <Cpu className="w-6 h-6 text-sky-400" />
                 </div>
                 <div className="text-left">
-                  <div className="text-white font-medium">Sarah Chen</div>
-                  <div className="text-slate-500 text-sm tracking-wide uppercase">Marketing Director, TechCorp</div>
+                  <div className="text-white font-medium">Founder</div>
+                  <div className="text-slate-500 text-sm tracking-wide uppercase">QuantivoTech</div>
                 </div>
               </motion.div>
             </GlassCard>

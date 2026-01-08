@@ -7,10 +7,11 @@ interface StatCardProps {
   suffix?: string
   prefix?: string
   label: string
+  description?: string
   delay?: number
 }
 
-export function StatCard({ value, suffix = "", prefix = "", label, delay = 0 }: StatCardProps) {
+export function StatCard({ value, suffix = "", prefix = "", label, description, delay = 0 }: StatCardProps) {
   const numberControls = useAnimation()
 
   const { count, ref, isComplete } = useCountUp({
@@ -56,6 +57,7 @@ export function StatCard({ value, suffix = "", prefix = "", label, delay = 0 }: 
         {count}
       </motion.div>
       <div className="text-sm text-white/60">{label}</div>
+      {description && <div className="text-xs text-white/40 mt-1">{description}</div>}
     </motion.div>
   )
 }
