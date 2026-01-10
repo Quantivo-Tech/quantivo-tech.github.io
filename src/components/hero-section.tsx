@@ -122,9 +122,9 @@ export function HeroSection({ particleCanvasRef, onScrollToSection }: HeroSectio
             <div style={{ perspective: "1000px" }}>
               <ShaderText
                 text="Where SaaS Brands, Meet Real Influence"
-                className="h-48 md:h-64"
+                className="h-24 sm:h-32 md:h-44 lg:h-56 xl:h-64"
                 style={{
-                  width: "clamp(300px, 90vw, 800px)",
+                  width: "clamp(280px, 85vw, 800px)",
                   transform: "rotateX(15deg)",
                   transformStyle: "preserve-3d",
                 }}
@@ -140,7 +140,7 @@ export function HeroSection({ particleCanvasRef, onScrollToSection }: HeroSectio
 
             {/* Subtitle */}
             <motion.p
-              className="text-xl md:text-2xl font-light text-white/80 max-w-2xl text-center"
+              className="text-base sm:text-lg md:text-xl lg:text-2xl font-light text-white/80 max-w-2xl text-center px-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
@@ -150,7 +150,7 @@ export function HeroSection({ particleCanvasRef, onScrollToSection }: HeroSectio
 
             {/* Dual CTA Buttons */}
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center w-full px-4 sm:px-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
@@ -158,7 +158,7 @@ export function HeroSection({ particleCanvasRef, onScrollToSection }: HeroSectio
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button
                   size="lg"
-                  className="w-52 glass-strong hover:bg-white/20 text-white border-sky-400/50"
+                  className="w-full sm:w-48 md:w-52 glass-strong hover:bg-white/20 text-white border-sky-400/50"
                   onClick={() => onScrollToSection("contact", "brand")}
                 >
                   I'm a Brand
@@ -168,7 +168,7 @@ export function HeroSection({ particleCanvasRef, onScrollToSection }: HeroSectio
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button
                   size="lg"
-                  className="w-52 glass-strong hover:bg-white/20 text-white border-teal-400/50"
+                  className="w-full sm:w-48 md:w-52 glass-strong hover:bg-white/20 text-white border-teal-400/50"
                   onClick={() => onScrollToSection("contact", "influencer")}
                 >
                   I'm an Influencer

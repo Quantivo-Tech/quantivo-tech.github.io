@@ -58,14 +58,14 @@ export function ContactSection({ userType, setUserType }: ContactSectionProps) {
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <div className="glass-card inline-flex p-1.5 rounded-full relative">
+          <div className="glass-card inline-flex p-1 sm:p-1.5 rounded-full relative">
             {/* Sliding pill background */}
             <motion.div
-              className="absolute top-1.5 bottom-1.5 rounded-full"
+              className="absolute top-1 sm:top-1.5 bottom-1 sm:bottom-1.5 rounded-full"
               layoutId="toggle-pill"
               animate={{
-                left: userType === "brand" ? "6px" : "50%",
-                right: userType === "brand" ? "50%" : "6px",
+                left: userType === "brand" ? "4px" : "50%",
+                right: userType === "brand" ? "50%" : "4px",
                 background: userType === "brand"
                   ? "linear-gradient(to right, #38bdf8, #2563eb)"
                   : "linear-gradient(to right, #2dd4bf, #14b8a6)",
@@ -77,7 +77,7 @@ export function ContactSection({ userType, setUserType }: ContactSectionProps) {
             />
 
             <motion.button
-              className={`relative z-10 px-8 py-3 rounded-full text-sm font-medium transition-colors ${
+              className={`relative z-10 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                 userType === "brand" ? "text-white" : "text-white/60 hover:text-white"
               }`}
               onClick={() => setUserType("brand")}
@@ -86,7 +86,7 @@ export function ContactSection({ userType, setUserType }: ContactSectionProps) {
               I'm a Brand
             </motion.button>
             <motion.button
-              className={`relative z-10 px-8 py-3 rounded-full text-sm font-medium transition-colors ${
+              className={`relative z-10 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                 userType === "influencer" ? "text-white" : "text-white/60 hover:text-white"
               }`}
               onClick={() => setUserType("influencer")}
@@ -108,9 +108,9 @@ export function ContactSection({ userType, setUserType }: ContactSectionProps) {
                 exit={{ opacity: 0, x: -30, rotateY: -10 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="glass-card gradient-border p-8">
-                  <h3 className="text-2xl font-light text-white mb-2">Ready to Reach New Audiences?</h3>
-                  <p className="text-white/50 text-sm mb-6">Tell us about your brand and goals. We'll show you what's possible.</p>
+                <div className="glass-card gradient-border p-5 sm:p-6 md:p-8">
+                  <h3 className="text-xl sm:text-2xl font-light text-white mb-2">Ready to Reach New Audiences?</h3>
+                  <p className="text-white/50 text-xs sm:text-sm mb-4 sm:mb-6">Tell us about your brand and goals. We'll show you what's possible.</p>
                   <form className="space-y-4">
                     <Input
                       placeholder="Company Name"
@@ -152,9 +152,9 @@ export function ContactSection({ userType, setUserType }: ContactSectionProps) {
                 exit={{ opacity: 0, x: -30, rotateY: -10 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="glass-card gradient-border-teal p-8">
-                  <h3 className="text-2xl font-light text-white mb-2">Ready to Land Brand Deals?</h3>
-                  <p className="text-white/50 text-sm mb-6">Tell us about your audience. We'll match you with the right opportunities.</p>
+                <div className="glass-card gradient-border-teal p-5 sm:p-6 md:p-8">
+                  <h3 className="text-xl sm:text-2xl font-light text-white mb-2">Ready to Land Brand Deals?</h3>
+                  <p className="text-white/50 text-xs sm:text-sm mb-4 sm:mb-6">Tell us about your audience. We'll match you with the right opportunities.</p>
                   <form className="space-y-4">
                     <Input
                       placeholder="Your Name"

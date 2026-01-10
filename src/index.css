@@ -162,7 +162,7 @@ html.lenis body {
 
   /* Section headers - luxury style */
   .section-header {
-    @apply text-4xl md:text-5xl font-light text-white;
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white;
     letter-spacing: 0.02em;
     text-shadow: 0 0 40px rgba(56, 189, 248, 0.15);
   }

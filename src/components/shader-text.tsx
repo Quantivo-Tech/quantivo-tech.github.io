@@ -169,9 +169,31 @@ export function ShaderText({ text, className = "", style = {}, config = {} }: Sh
     // Clear canvas with transparent background
     ctx.clearRect(0, 0, width, height)
 
-    // Configure text rendering with larger font size and Raleway font
+    // RESPONSIVE FONT SIZE - scales based on container width
+    // Must fit within container height with 2 lines of text
+    let fontSize = 80
+    let lineSpacing = 25
+    if (width <= 300) {
+      fontSize = 28
+      lineSpacing = 8
+    } else if (width <= 400) {
+      fontSize = 36
+      lineSpacing = 10
+    } else if (width <= 550) {
+      fontSize = 38
+      lineSpacing = 12
+    } else if (width <= 700) {
+      fontSize = 50
+      lineSpacing = 16
+    } else if (width <= 850) {
+      fontSize = 65
+      lineSpacing = 20
+    }
+    // width > 850: uses default 80px
+
+    // Configure text rendering with responsive font size
     ctx.fillStyle = "white"
-    ctx.font = "300 80px Raleway, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif"
+    ctx.font = `300 ${fontSize}px Raleway, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif`
     ctx.textAlign = "center"
     ctx.textBaseline = "middle"
 
@@ -180,11 +202,9 @@ export function ShaderText({ text, className = "", style = {}, config = {} }: Sh
     const line1 = lines[0] || "Where SaaS Brands"
     const line2 = lines[1] || "Meet Real Influence"
 
-    // Calculate proper vertical centering with larger font
-    const fontSize = 80
-    const lineSpacing = 25 // Space between lines
-    const totalTextHeight = fontSize * 2 + lineSpacing // Total height of both lines plus spacing
-    const centerY = height / 2 // True center of canvas
+    // Calculate proper vertical centering
+    const totalTextHeight = fontSize * 2 + lineSpacing
+    const centerY = height / 2
 
     // Position lines symmetrically around the center
     const line1Y = centerY - totalTextHeight / 2 + fontSize / 2
@@ -396,10 +416,10 @@ export function ShaderText({ text, className = "", style = {}, config = {} }: Sh
   }, [text, amplitude, frequency, speed, decay])
 
   if (!isWebGLSupported) {
-    // Fallback for devices without WebGL support
+    // Fallback for devices without WebGL support - responsive sizing
     return (
       <div className={className} style={style}>
-        <h1 className="text-6xl md:text-7xl font-light leading-tight text-white text-center" style={{ fontFamily: 'Raleway, Inter, sans-serif' }}>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-light leading-tight text-white text-center" style={{ fontFamily: 'Raleway, Inter, sans-serif' }}>
           <div className="block">Where SaaS Brands</div>
           <div className="block text-sky-400 mt-2">Meet Real Influence</div>
         </h1>

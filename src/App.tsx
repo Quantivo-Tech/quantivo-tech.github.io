@@ -397,13 +397,13 @@ export default function App() {
       </section>
 
       {/* Why QuantivoTech Section */}
-      <section id="about" className="relative py-20 cursor-none">
+      <section id="about" className="relative py-12 sm:py-16 md:py-20 cursor-none">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1a] via-[#0a1628] to-[#0a0f1a] z-0" />
         <NetworkVisualization className="z-5" opacity={0.08} speed={0.1} nodeCount={20} connectionDistance={100} />
 
-        <div className="relative z-10 max-w-4xl mx-auto px-6">
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
           <motion.h2
-            className="section-header text-center mb-16"
+            className="section-header text-center mb-10 sm:mb-12 md:mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -412,7 +412,7 @@ export default function App() {
             Why QuantivoTech
           </motion.h2>
 
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -420,13 +420,13 @@ export default function App() {
               viewport={{ once: true }}
             >
               <GlassCard glowColor="blue">
-                <div className="flex flex-col md:flex-row gap-6 items-start">
-                  <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-sky-400/20 to-purple-500/20 flex items-center justify-center flex-shrink-0">
-                    <Globe className="w-10 h-10 text-sky-400" />
+                <div className="flex flex-col md:flex-row gap-4 sm:gap-6 items-start">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-xl sm:rounded-2xl bg-gradient-to-br from-sky-400/20 to-purple-500/20 flex items-center justify-center flex-shrink-0">
+                    <Globe className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-sky-400" />
                   </div>
                   <div>
-                    <h3 className="text-3xl font-semibold tracking-tight text-white mb-3" style={{ letterSpacing: '-0.02em' }}>Built for B2B Influence</h3>
-                    <p className="text-lg leading-relaxed text-slate-400">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-white mb-2 sm:mb-3" style={{ letterSpacing: '-0.02em' }}>Built for B2B Influence</h3>
+                    <p className="text-sm sm:text-base md:text-lg leading-relaxed text-slate-400">
                       We specialize in one thing: connecting SaaS brands with business owners who have real audiences.
                       No lifestyle fluff - just authentic voices your buyers trust.
                     </p>
@@ -442,13 +442,13 @@ export default function App() {
               viewport={{ once: true }}
             >
               <GlassCard glowColor="purple">
-                <div className="flex flex-col md:flex-row gap-6 items-start">
-                  <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-400/20 to-pink-500/20 flex items-center justify-center flex-shrink-0">
-                    <HeartHandshake className="w-10 h-10 text-purple-400" />
+                <div className="flex flex-col md:flex-row gap-4 sm:gap-6 items-start">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-xl sm:rounded-2xl bg-gradient-to-br from-purple-400/20 to-pink-500/20 flex items-center justify-center flex-shrink-0">
+                    <HeartHandshake className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-purple-400" />
                   </div>
                   <div>
-                    <h3 className="text-3xl font-semibold tracking-tight text-white mb-3" style={{ letterSpacing: '-0.02em' }}>Boutique, Not Factory</h3>
-                    <p className="text-lg leading-relaxed text-slate-400">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-white mb-2 sm:mb-3" style={{ letterSpacing: '-0.02em' }}>Boutique, Not Factory</h3>
+                    <p className="text-sm sm:text-base md:text-lg leading-relaxed text-slate-400">
                       No account managers juggling 50 clients. You get hands-on partnership,
                       direct communication, and a team that actually knows your brand.
                     </p>
@@ -478,10 +478,10 @@ export default function App() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <GlassCard className="max-w-3xl mx-auto text-center px-8 md:px-16 py-12" glowColor="purple">
+            <GlassCard className="max-w-3xl mx-auto text-center px-5 sm:px-8 md:px-16 py-8 sm:py-10 md:py-12" glowColor="purple">
               {/* Decorative quote mark */}
               <motion.div
-                className="text-6xl text-sky-400/10 font-serif leading-none mb-6"
+                className="text-4xl sm:text-5xl md:text-6xl text-sky-400/10 font-serif leading-none mb-4 sm:mb-6"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.4 }}
@@ -492,7 +492,7 @@ export default function App() {
 
               {/* Founder vision statement */}
               <motion.p
-                className="text-2xl sm:text-3xl lg:text-4xl font-light text-white/90 leading-[1.4] mb-8"
+                className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light text-white/90 leading-[1.4] mb-6 sm:mb-8"
                 style={{ letterSpacing: '-0.03em' }}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -533,7 +533,7 @@ export default function App() {
 
         <div className="relative z-10 max-w-5xl mx-auto px-6">
           <motion.h2
-            className="section-header text-center mb-16"
+            className="section-header text-center mb-10 sm:mb-12 md:mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -585,7 +585,7 @@ export default function App() {
 
             <div className="text-center md:text-left">
               <h4 className="font-medium text-white mb-4">Connect</h4>
-              <p className="text-sm text-white/40 mb-4">hello@quantivotech.com</p>
+              <p className="text-sm text-white/40 mb-4">contact@quantivotech.com</p>
               <div className="flex justify-center md:justify-start gap-3">
                 {['LinkedIn', 'Twitter', 'Instagram'].map((social) => (
                   <motion.div

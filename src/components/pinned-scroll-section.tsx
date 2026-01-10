@@ -245,16 +245,16 @@ function StatementCard({ statement, index, totalCards, scrollProgress, globalScr
 // Extracted card content for cleaner code
 function CardContent({ statement, index, totalCards }: { statement: string; index: number; totalCards: number }) {
   return (
-    <div className="glass-card p-10 md:p-14 text-center relative">
-      <div className="text-6xl text-sky-400/20 font-serif leading-none mb-4">"</div>
-      <p className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-tight">
+    <div className="glass-card p-6 sm:p-8 md:p-10 lg:p-14 text-center relative">
+      <div className="text-4xl sm:text-5xl md:text-6xl text-sky-400/20 font-serif leading-none mb-3 md:mb-4">"</div>
+      <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-light text-white leading-tight">
         {statement}
       </p>
-      <div className="flex justify-center gap-3 mt-8">
+      <div className="flex justify-center gap-2 sm:gap-3 mt-6 md:mt-8">
         {Array.from({ length: totalCards }).map((_, i) => (
           <div
             key={i}
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+            className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 ${
               i === index
                 ? "bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.6),0_0_16px_rgba(56,189,248,0.3)]"
                 : "bg-white/20 hover:bg-white/30"

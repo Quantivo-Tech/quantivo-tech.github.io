@@ -31,7 +31,7 @@ export function StatCard({ value, suffix = "", prefix = "", label, description, 
   return (
     <motion.div
       ref={ref}
-      className="glass-card p-6 text-center"
+      className="glass-card p-4 sm:p-5 md:p-6 text-center"
       initial={{ opacity: 0, y: 30, scale: 0.9 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true }}
@@ -46,7 +46,7 @@ export function StatCard({ value, suffix = "", prefix = "", label, description, 
       aria-live={isComplete ? "polite" : "off"}
     >
       <motion.div
-        className="text-4xl md:text-5xl font-light text-white mb-2"
+        className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-white mb-1 sm:mb-2"
         animate={numberControls}
         style={{
           textShadow: isComplete
@@ -56,8 +56,8 @@ export function StatCard({ value, suffix = "", prefix = "", label, description, 
       >
         {count}
       </motion.div>
-      <div className="text-sm text-white/60">{label}</div>
-      {description && <div className="text-xs text-white/40 mt-1">{description}</div>}
+      <div className="text-xs sm:text-sm text-white/60">{label}</div>
+      {description && <div className="text-[10px] sm:text-xs text-white/40 mt-1">{description}</div>}
     </motion.div>
   )
 }
